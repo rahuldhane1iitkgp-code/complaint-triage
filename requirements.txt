@@ -1,6 +1,12 @@
-streamlit==1.40.2
+# scikit-learn is pinned EXACTLY: the joblib pipelines in app/models/ were fitted
+# under 1.6.1 and pickles carry no cross-version compatibility guarantee.
 scikit-learn==1.6.1
-pandas==2.2.3
-numpy==1.26.4
-joblib==1.4.2
+
+# Everything else is left loose so pip can resolve wheels for whichever Python
+# Streamlit Cloud runs. Pinning numpy==1.26.4 forced a source build on Python
+# 3.13 (no wheel exists), which is slow and usually fails.
+streamlit>=1.40
+pandas>=2.2
+numpy>=1.26,<3
+joblib>=1.4
 vaderSentiment==3.3.2
