@@ -20,60 +20,8 @@ Held-out test sets, 15,000 rows per task, opened exactly once.
 Macro-F1. Δ is DistilBERT minus TF-IDF; the interval comes from a paired bootstrap over
 1,000 resamples of the test set. P(DistilBERT better) = 100% and 99.9%.
 
-**But the issue headline is misleading, and the error analysis says why — see
+**The issue headline is misleading on its own — see
 [What 0.60 actually measures](#what-060-actually-measures).**
-
----
-
-## The part worth reading first: the dataset was replaced
-
-The project began on a widely-used Kaggle support-ticket dataset. A schema-verification
-and EDA pass, run **before any modelling**, found the labels were independent of the
-ticket text. Three diagnostics, any one of which would have been suggestive; together
-they are conclusive.
-
-**1. Every class had the same top terms.** Nine of the top twelve TF-IDF terms were
-shared by all five categories *and* all four priority levels. Every description was a
-template: `"I'm having an issue with the {product_purchased}. Please assist"` plus filler.
-
-**2. Cramér's V was near zero on every field pair.**
-
-| Field pair | Cramér's V |
-|---|---|
-| Priority × Type | 0.021 |
-| Priority × Satisfaction | 0.039 |
-| Type × Satisfaction | 0.042 |
-
-Cramér's V rather than a chi-square p-value: at n = 8,469 almost any deviation reaches
-significance, so a p-value says nothing about whether the association matters. V
-normalises it to an effect size.
-
-**3. The label distributions were uniform.** Priority imbalance ratio **1.06**;
-satisfaction ratings 553/549/580/543/544 across the 1–5 scale. Real support queues skew
-heavily toward low priority and real CSAT is J-shaped. Flat distributions on every
-categorical field at once is the signature of random assignment.
-
-### A gate, not an opinion
-
-To turn that into a decision rather than a judgement call, both datasets were scored by
-**the same function at the same sample size** (n = 8,469, the smaller corpus's full
-size). The rule: TF-IDF + logistic regression must beat a stratified dummy by ≥ 0.03
-macro-F1, or the labels carry no learnable signal.
-
-| Dataset / target | Dummy | TF-IDF | Lift | |
-|---|---|---|---|---|
-| Original · Ticket Type | 0.1865 | 0.2016 | +0.0151 | FAIL |
-| Original · Ticket Priority | 0.2431 | 0.2629 | +0.0198 | FAIL |
-| Original · Ticket Subject | 0.0638 | 0.0606 | **−0.0032** | FAIL |
-| CFPB · Product | 0.0533 | 0.4877 | **+0.4344** | PASS |
-| CFPB · Issue | 0.0600 | 0.5002 | **+0.4403** | PASS |
-
-Ticket Subject scored *below* a stratified coin flip. It was included specifically as the
-one alternative target the audit had flagged but not tested, so the switch could not be
-called giving up early.
-
-The switch cost three days. Fine-tuning toward 20% accuracy would have cost two weeks and
-produced nothing reportable.
 
 ---
 
