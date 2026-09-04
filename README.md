@@ -4,7 +4,7 @@ Routing US consumer-finance complaints to a **product category** (9 classes) and
 **issue type** (15 classes), on 100,000 narratives from the CFPB Consumer Complaint
 Database.
 
-**Live demo:** https://complaint-triage-scsi9gnaiybohvjrvqx43w.streamlit.app · **Notebooks:** *(add your Kaggle profile links)*
+**Live demo:** https://complaint-triage-scsi9gnaiybohvjrvqx43w.streamlit.app · **Notebooks:** [data prep and baselines](https://www.kaggle.com/code/rahuldhane/03-splits-and-baselines) · [final evaluation](https://www.kaggle.com/code/rahuldhane/notebook9a1ccd7fd2)
 
 ---
 
