@@ -1,0 +1,13 @@
+# Data is never committed - CFPB is pulled from code inside the notebooks
+data/
+*.csv
+!reports/*.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# Local scratch
+*.zip
